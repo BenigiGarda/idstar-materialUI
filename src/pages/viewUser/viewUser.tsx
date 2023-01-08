@@ -37,11 +37,11 @@ function ViewUser() {
   }
   const columns: GridColDef[] = [
     { field: "title", headerName: "Title", width: 200 },
-    { field: "body", headerName: "Body", width: 400 },
+    { field: "body", headerName: "Body", width: 830 },
     {
       field: "col5",
       headerName: "Tools",
-      width: 250,
+      width: 150,
       renderCell: (cellValues) => {
         return (
           <div className="table-button-container">
@@ -115,11 +115,7 @@ function ViewUser() {
               </Button>
             </div>
             <div className="user-post-table">
-              <DataGrid
-                rows={userPosts}
-                columns={columns}
-                hideFooterPagination={true}
-              />
+              <DataGrid rows={userPosts} columns={columns} />
             </div>
           </div>
         </div>

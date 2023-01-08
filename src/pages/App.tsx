@@ -34,11 +34,11 @@ function App() {
       });
   }
   const columns: GridColDef[] = [
-    { field: "id", headerName: "ID", width: 200 },
+    { field: "id", headerName: "ID", width: 100 },
     { field: "name", headerName: "Name", width: 250 },
-    { field: "email", headerName: "Email", width: 250 },
-    { field: "gender", headerName: "Gender", width: 250 },
-    { field: "status", headerName: "Status", width: 250 },
+    { field: "email", headerName: "Email", width: 350 },
+    { field: "gender", headerName: "Gender", width: 100 },
+    { field: "status", headerName: "Status", width: 100 },
     {
       field: "col5",
       headerName: "Tools",
@@ -82,38 +82,48 @@ function App() {
   ];
 
   return (
-    <div className="container">
-      <div>
-        <h1>Daftar Pengguna</h1>
-      </div>
-      <div className="create-user-button">
-        <Button
-          variant="contained"
-          className="create"
-          onClick={() => {
-            setDialogType("Create User");
-            setOpenDialog(true);
-          }}
-        >
-          Buat Pengguna
-        </Button>
-      </div>
-      <div className="table-container">
-        <DataGrid rows={data} columns={columns} hideFooterPagination={true} />
-        <div className="paginate-container">
-          <PaginationApp
-            totalPage={paginationPage}
-            changePage={setCurrentPage}
-          />
+    <body>
+      <div className="container">
+        <div className="user-list-container">
+          <div className="user-list">
+            <div>
+              <h1>Daftar Pengguna</h1>
+            </div>
+            <div className="create-user-button">
+              <Button
+                variant="contained"
+                className="create"
+                onClick={() => {
+                  setDialogType("Create User");
+                  setOpenDialog(true);
+                }}
+              >
+                Buat Pengguna
+              </Button>
+            </div>
+            <div className="table-container">
+              <DataGrid
+                rows={data}
+                columns={columns}
+                hideFooterPagination={true}
+              />
+            </div>
+            <div className="paginate-container">
+              <PaginationApp
+                totalPage={paginationPage}
+                changePage={setCurrentPage}
+              />
+            </div>
+            <DialogBox
+              openDialog={openDialog}
+              onClose={() => setOpenDialog(false)}
+              dialogType={dialogType}
+              userId={selectedId}
+            />
+          </div>
         </div>
       </div>
-      <DialogBox
-        openDialog={openDialog}
-        onClose={() => setOpenDialog(false)}
-        dialogType={dialogType}
-        userId={selectedId}
-      />
-    </div>
+    </body>
   );
 }
 

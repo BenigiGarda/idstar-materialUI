@@ -12,7 +12,7 @@ interface SimpleDialogProps {
   onClose: (value: string) => void;
 }
 export default function DialogBox(props: SimpleDialogProps) {
-  const { onClose, openDialog, dialogType, userId, setLoading } = props;
+  const { onClose, openDialog, dialogType, userId } = props;
 
   const handleClose = () => {
     onClose("Close");
