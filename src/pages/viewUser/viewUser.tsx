@@ -1,14 +1,40 @@
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import React, { useState } from "react";
-import useGetAll from "../../hooks/useGetAll";
+import { useEffect, useState } from "react";
 import { Button } from "@mui/material";
+import { useSelector } from "react-redux";
 import "./viewUser.css";
 import DialogBox from "../../components/DialogBox";
+import useGetUserDetail from "../../hooks/useGetUserDetail";
+import axios from "axios";
+
+interface userIdSelector {
+  idState: {
+    id: number;
+  };
+}
 
 function ViewUser() {
+  const userId = useSelector<userIdSelector>((state) => state.idState.id);
   const [openDialog, setOpenDialog] = useState<boolean>(false);
-  const { data } = useGetAll(`https://gorest.co.in/public/v2/users/269/posts`);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [userPosts, setUserPosts] = useState([]);
+  const { userDetail } = useGetUserDetail(
+    `https://gorest.co.in/public/v2/users/${userId}`
+  );
 
+  async function deletePosts(id: number) {
+    const config = {
+      headers: {
+        Authorization:
+          "Bearer f9b7b4b270855085710020ab025f155fc18cbc7f3901576ae940d96624b7db16",
+      },
+    };
+    await axios
+      .delete(`https://gorest.co.in/public/v2/posts/${id}`, config)
+      .then(() => {
+        setLoading(true);
+      });
+  }
   const columns: GridColDef[] = [
     { field: "title", headerName: "Title", width: 200 },
     { field: "body", headerName: "Body", width: 400 },
@@ -16,10 +42,14 @@ function ViewUser() {
       field: "col5",
       headerName: "Tools",
       width: 250,
-      renderCell: () => {
+      renderCell: (cellValues) => {
         return (
           <div className="table-button-container">
-            <Button variant="contained" className="user-delete-button">
+            <Button
+              variant="contained"
+              className="user-delete-button"
+              onClick={() => deletePosts(cellValues.row.id)}
+            >
               Delete
             </Button>
           </div>
@@ -27,6 +57,24 @@ function ViewUser() {
       },
     },
   ];
+  useEffect(() => {
+    async function getUserPosts() {
+      const config = {
+        headers: {
+          Authorization:
+            "Bearer f9b7b4b270855085710020ab025f155fc18cbc7f3901576ae940d96624b7db16",
+        },
+      };
+      await axios
+        .get(`https://gorest.co.in/public/v2/users/${userId}/posts`, config)
+        .then((res) => {
+          setUserPosts(res.data);
+          setLoading(false);
+        });
+    }
+    getUserPosts();
+  }, [userId, loading === true]);
+
   return (
     <div className="container">
       <div className="user-card-container">
@@ -50,9 +98,9 @@ function ViewUser() {
               </div>
             </div>
             <div>
-              <p className="user-information">Nama</p>
-              <p className="user-information">Gender</p>
-              <p className="user-information">Email</p>
+              <p className="user-information">{userDetail?.name}</p>
+              <p className="user-information">{userDetail?.gender}</p>
+              <p className="user-information">{userDetail?.email}</p>
             </div>
           </div>
           <div className="user-post-container">
@@ -68,7 +116,7 @@ function ViewUser() {
             </div>
             <div className="user-post-table">
               <DataGrid
-                rows={data}
+                rows={userPosts}
                 columns={columns}
                 hideFooterPagination={true}
               />
@@ -80,6 +128,8 @@ function ViewUser() {
         openDialog={openDialog}
         onClose={() => setOpenDialog(false)}
         dialogType={"Create Post"}
+        userId={userId}
+        setLoading={setLoading}
       />
     </div>
   );
