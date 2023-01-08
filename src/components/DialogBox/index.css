@@ -1,0 +1,22 @@
+.dialog-container{
+    padding: 40px;
+    width: 500px;
+}
+.create-post-header{
+    display: flex;
+    justify-content: space-between;
+}
+
+.create-post-main{
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    margin-top: 30px;
+}
+h3.post-create-title{
+    padding: 7px 0px;
+}
+.input-text-title{
+    border-width: 0px;
+    padding: 16px px;
+}

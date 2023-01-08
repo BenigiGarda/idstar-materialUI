@@ -1,0 +1,45 @@
+div.user-card-container {
+
+  border: 5px solid black;
+}
+div.user-card {
+margin-left: 40px;
+margin-right: 40px;
+}
+div.user-information-container{
+    margin-top: 30px;
+    display: flex;
+
+}
+div.information-head{
+    width: 100px;
+    display: flex;
+    justify-content: space-between;
+}
+p.user-information{
+    padding-left: 20px;
+}
+div.user-post-container {
+  margin-top: 30px;
+
+}
+div > button.create-post{
+    display: inline-block;
+    background-color: #008000;
+    padding: 7px 17px;
+    text-decoration: none;
+    color: white;
+    border-radius: 5px;
+  }
+h3.post-list-title{
+    padding: 7px ;
+}
+div.user-post-header {
+  display: flex;
+  justify-content: space-between;
+}
+div.user-post-table {
+  margin-top:30px;
+  width: 100%;
+  height: 650px;
+}
